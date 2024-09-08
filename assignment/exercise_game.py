@@ -8,9 +8,9 @@ import random
 import json
 
 
-N: int = 3
+N: int = 10 # number of flashes
 sample_ms = 10.0
-on_ms = 500
+on_ms = 500 # user must hit button within this time (ms)
 
 
 def random_time_interval(tmin: float, tmax: float) -> float:
@@ -19,7 +19,7 @@ def random_time_interval(tmin: float, tmax: float) -> float:
 
 
 def blinker(N: int, led: Pin) -> None:
-    # %% let user know game started / is over
+    # let user know game started / is over
 
     for _ in range(N):
         led.high()
@@ -46,7 +46,7 @@ def write_json(json_filename: str, data: dict) -> None:
 
 
 def scorer(t: list[int | None]) -> None:
-    # %% collate results
+    # collate results
     misses = t.count(None)
     print(f"You missed the light {misses} / {len(t)} times")
 
@@ -59,7 +59,14 @@ def scorer(t: list[int | None]) -> None:
     # is in range [0..1]
     data = {}
 
-    # %% make dynamic filename and write JSON
+    # average
+    data["average"] = sum(t_good)/len(t_good)
+    # minimum
+    data["minimum"] = min(t_good)
+    # maximum
+    data["maximum"] = max(t_good)
+
+    # make dynamic filename and write JSON
 
     now: tuple[int] = time.localtime()
 
@@ -75,11 +82,11 @@ if __name__ == "__main__":
     # using "if __name__" allows us to reuse functions in other script files
 
     led = Pin("LED", Pin.OUT)
-    button = Pin(16, Pin.IN, Pin.PULL_UP)
+    button = Pin(14, Pin.IN, Pin.PULL_UP)
 
     t: list[int | None] = []
 
-    blinker(3, led)
+    blinker(3, led) # start of game
 
     for i in range(N):
         time.sleep(random_time_interval(0.5, 5.0))
@@ -97,6 +104,6 @@ if __name__ == "__main__":
 
         led.low()
 
-    blinker(5, led)
+    blinker(5, led) # end of game
 
     scorer(t)
