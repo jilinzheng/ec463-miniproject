@@ -1,16 +1,37 @@
 """
 Response time - single-threaded
+
+WLAN networking code obtained from https://projects.raspberrypi.org/en/projects/get-started-pico-w/2
+
+Micropython Firebase API obtained from https://github.com/ckoever/micropython-firebase-realtime-database
 """
 
-from machine import Pin
+from machine import Pin, reset
 import time
 import random
 import json
+import network
+import ufirebase as firebase
 
 
 N: int = 10 # number of flashes
 sample_ms = 10.0
 on_ms = 500 # user must hit button within this time (ms)
+ssid = 'WIFI_NAME_HERE'
+password = 'WIFI_PASSWORD_HERE'
+
+
+def connect():
+    #Connect to WLAN
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect(ssid, password)
+    while wlan.isconnected() == False:
+        print('Waiting for connection...')
+        time.sleep(1)
+    ip = wlan.ifconfig()[0]
+    print(f'Connected on {ip}')
+    return ip
 
 
 def random_time_interval(tmin: float, tmax: float) -> float:
@@ -77,33 +98,40 @@ def scorer(t: list[int | None]) -> None:
 
     write_json(filename, data)
 
+    firebase.addto(filename, data, DUMP=None, bg=True, id=0, cb=None)
+
 
 if __name__ == "__main__":
-    # using "if __name__" allows us to reuse functions in other script files
+    try:
+        ip = connect()
+        firebase.setURL("https://ec463-miniproject-824d0-default-rtdb.firebaseio.com/")
 
-    led = Pin("LED", Pin.OUT)
-    button = Pin(14, Pin.IN, Pin.PULL_UP)
+        led = Pin("LED", Pin.OUT)
+        button = Pin(14, Pin.IN, Pin.PULL_UP)
 
-    t: list[int | None] = []
+        t: list[int | None] = []
 
-    blinker(3, led) # start of game
+        blinker(3, led) # start of game
 
-    for i in range(N):
-        time.sleep(random_time_interval(0.5, 5.0))
+        for i in range(N):
+            time.sleep(random_time_interval(0.5, 5.0))
 
-        led.high()
+            led.high()
 
-        tic = time.ticks_ms()
-        t0 = None
-        while time.ticks_diff(time.ticks_ms(), tic) < on_ms:
-            if button.value() == 0:
-                t0 = time.ticks_diff(time.ticks_ms(), tic)
-                led.low()
-                break
-        t.append(t0)
+            tic = time.ticks_ms()
+            t0 = None
+            while time.ticks_diff(time.ticks_ms(), tic) < on_ms:
+                if button.value() == 0:
+                    t0 = time.ticks_diff(time.ticks_ms(), tic)
+                    led.low()
+                    break
+            t.append(t0)
 
-        led.low()
+            led.low()
 
-    blinker(5, led) # end of game
+        blinker(5, led) # end of game
 
-    scorer(t)
+        scorer(t)
+
+    except KeyboardInterrupt:
+        machine.reset()
