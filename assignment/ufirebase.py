@@ -208,7 +208,6 @@ def setURL(url):
     if proto == "http:":
         port = 80
     elif proto == "https:":
-        import ssl
         port = 443
     else:
         raise ValueError("Unsupported protocol: " + proto)
