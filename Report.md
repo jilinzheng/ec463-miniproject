@@ -15,4 +15,4 @@ Please refer to [exercise_sound.py](assignment/exercise_sound.py).
 
 ## Exercise 3
 
-Please refer to [exercise_game.py](assignment/exercise_game.py).
+Please refer to [exercise_game.py](assignment/exercise_game.py). The Firebase Realtime Database used is [here](https://console.firebase.google.com/u/3/project/ec463-miniproject-824d0/database/ec463-miniproject-824d0-default-rtdb/data/~2F).
