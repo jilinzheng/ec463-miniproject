@@ -12,7 +12,7 @@ import network
 import urequests as requests
 
 
-N: int = 3 # number of flashes
+N: int = 10 # number of flashes
 sample_ms = 10.0
 on_ms = 500 # user must hit button within this time (ms)
 ssid = 'YOUR WIFI HERE'
