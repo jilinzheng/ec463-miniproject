@@ -2,8 +2,6 @@
 Response time - single-threaded
 
 WLAN networking code obtained from https://projects.raspberrypi.org/en/projects/get-started-pico-w/2
-
-Micropython Firebase API obtained from https://github.com/ckoever/micropython-firebase-realtime-database
 """
 
 from machine import Pin, reset
@@ -11,14 +9,14 @@ import time
 import random
 import json
 import network
-import ufirebase as firebase
+import urequests as requests
 
 
-N: int = 10 # number of flashes
+N: int = 3 # number of flashes
 sample_ms = 10.0
 on_ms = 500 # user must hit button within this time (ms)
-ssid = 'WIFI_NAME_HERE'
-password = 'WIFI_PASSWORD_HERE'
+ssid = 'YOUR WIFI HERE'
+password = 'YOUR PASSWORD HERE'
 
 
 def connect():
@@ -98,13 +96,18 @@ def scorer(t: list[int | None]) -> None:
 
     write_json(filename, data)
 
-    firebase.addto(filename, data, DUMP=None, bg=True, id=0, cb=None)
+    # upload data to firebase realtime database
+    r = requests.put(f"https://(YOUR ID HERE).firebaseio.com/{filename}", data=json.dumps(data))
+    print(r)
+    if r.status_code == 200:
+        print("Data uploaded successfully!")
 
 
 if __name__ == "__main__":
+    print("Successfully imported requests.")
+
     try:
         ip = connect()
-        firebase.setURL("https://ec463-miniproject-824d0-default-rtdb.firebaseio.com/")
 
         led = Pin("LED", Pin.OUT)
         button = Pin(14, Pin.IN, Pin.PULL_UP)
