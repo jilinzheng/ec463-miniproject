@@ -15,4 +15,8 @@ Please refer to [exercise_sound.py](assignment/exercise_sound.py).
 
 ## Exercise 3
 
-Please refer to [exercise_game.py](assignment/exercise_game.py). The Firebase Realtime Database used is [here](https://console.firebase.google.com/u/3/project/ec463-miniproject-824d0/database/ec463-miniproject-824d0-default-rtdb/data/~2F).
+Please refer to [exercise_game.py](assignment/exercise_game.py). The Firebase Realtime Database used is [here](https://console.firebase.google.com/u/3/project/ec463-miniproject-824d0/database/ec463-miniproject-824d0-default-rtdb/data/~2F)...need to add professors to database...
+
+A screenshot of the Realtime Database is below:
+
+![Firebase Realtime Database Data](./assignment/realtime_database_data.png)
