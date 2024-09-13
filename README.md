@@ -6,7 +6,7 @@ Please see our [REPORT.md](./REPORT.md) for our responses.
 
 ## Software Assignment
 
-We built a simple web app using Flask that incorporates authentication via Google and databases using Google Firebase Realtime Database (for hardware-collected data) and SQLite (for user information). The web app shows users their scores...(WIP)
+We built a simple web app using Flask that incorporates authentication via Google and databases using Google Firebase Realtime Database (for hardware-collected data) and SQLite (for user information). Please see the subsections below for more detail.
 
 ### Running the Web App
 
