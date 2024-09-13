@@ -1,5 +1,5 @@
 """
-Flask app to diplay user data
+Flask app to diplay user data from "Don't Blink!" response time game (exercise_game.py).
 
 Followed Google Login tutorial from 
 https://realpython.com/flask-google-login/
@@ -9,12 +9,10 @@ https://realpython.com/flask-google-login/
 import json
 import os
 import sqlite3
-
 from flask import Flask, redirect, request, url_for
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from oauthlib.oauth2 import WebApplicationClient
 import requests
-
 from db import init_db_command
 from user import User
 
@@ -27,7 +25,7 @@ GOOGLE_DISCOVERY_URL = ("https://accounts.google.com/.well-known/openid-configur
 # flask and flask-login (session management) setup
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24) # used for login manager
-db = 'https://ec463-miniproject-824d0-default-rtdb.firebaseio.com/'
+firebase = 'https://ec463-miniproject-824d0-default-rtdb.firebaseio.com/'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -55,9 +53,11 @@ def get_google_provider_cfg():
 
 @app.route('/')
 def index():
-    # r = requests.get(db+'.json')
-    # return r.json()
     if current_user.is_authenticated:
+        # get the user email, scrapping everything including/after the '@'
+        # for a pseudo-username
+        user_email = (current_user.email).split('@')[0]
+        '''
         return (
             "<p>Hello, {}! You're logged in! Email: {}</p>"
             "<div><p>Google Profile Picture:</p>"
@@ -66,6 +66,10 @@ def index():
                 current_user.name, current_user.email, current_user.profile_pic
             )
         )
+        '''
+        r = requests.get(firebase+user_email+'.json')
+        return r.json()
+
     else:
         return '<a class="button" href="/login">Google Login</a>'
 
