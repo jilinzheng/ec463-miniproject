@@ -12,10 +12,11 @@ We built a simple web app using Flask that incorporates authentication via Googl
 
 To run the web app in a local test/development environment (the only option available...)
 
+0. Ensure you have Python 3.x installed, and that you have properly set the Google authentication environmental variables appropriately in [app.py](./flask-web-app/app.py)
 1. Clone the repo
-2. `cd` into the [flask-backend](./flask-backend/) directory
+2. `cd` into the [flask-web-app](./flask-web-app/) directory
 3. Run `pip install -r requirements.txt` either directly or through a virtual environment
-4. Run `python app.py` (you may need to do this twice if the `sqlite_db` is not yet created, which is used to retrieve user data...)
+4. Run `python3 app.py` (you may need to do this twice if the `sqlite_db` is not yet created, which is used to retrieve user data...)
 
 ### User Data Privacy
 
