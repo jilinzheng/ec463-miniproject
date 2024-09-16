@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Your Scores</title>
+</head>
+<body>
+    <h1>Scores</h1>
+    <pre>{{ data | tojson(indent=4) }}</pre>
+
+    <a href="{{ url_for('logout') }}">
+        <button>Logout</button>
+    </a>
+</body>
+</html>
