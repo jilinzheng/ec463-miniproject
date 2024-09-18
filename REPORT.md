@@ -24,6 +24,8 @@ The 'flow' of the hardware game to the cloud storage + web application is as fol
 - To run the web application, refer to [README.md](./README.md)
 - Upon opening the web application, users can log in with the same email they used in the [exercise_game.py](assignment/exercise_game.py) script, and retrieve their data
 
+To see a demonstration of the web application pulling user-specific data, see the video [here](https://youtu.be/4Vm0vzs6m_s).
+
 A screenshot of the Realtime Database is below:
 
 ![Firebase Realtime Database Data](./assignment/firebase.png)
